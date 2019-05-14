@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
+import Validation from './Validation/Validation';
+import CharComponent from './Char/Char';
+import Radium from 'radium';
 
 class App extends Component {
   state = {
@@ -9,21 +12,12 @@ class App extends Component {
       { id: '002', name: "Cyrus", age: 200 },
       { id: '003', name: "Ozymandias", age: 52 },
     ],
-    showPersons: false
+    showPersons: false,
+    textValue: ''
   }
 
-  // switchNameHandler = (newName) => {
-  //   this.setState({
-  //     persons: [
-  //       { name: newName, age: 21 },
-  //       { name: "Manu", age: 22 },
-  //       { name: "Stephanie", age: 23 }
-  //     ]
-  //   });
-  // }
-
   deletePersonHandler = (id) => {
-    const updatedPersons = this.state.persons.filter( (p) => {
+    const updatedPersons = this.state.persons.filter((p) => {
       return p.id !== id;
     });
     this.setState({
@@ -33,7 +27,7 @@ class App extends Component {
 
   nameChangedHandler = (event, id) => {
     const updatedPersons = this.state.persons.map(person => {
-      if(person.id === id) {
+      if (person.id === id) {
         return {
           ...person,
           name: event.target.value
@@ -43,7 +37,7 @@ class App extends Component {
       }
     })
     this.setState({
-      persons: [ ...updatedPersons ]
+      persons: [...updatedPersons]
     })
   }
 
@@ -61,43 +55,101 @@ class App extends Component {
     }));
   }
 
+  onTextChange = (event) => {
+    const newTextValue = event.target.value;
+    this.setState({
+      textValue: newTextValue
+    })
+  }
+
+  onRemoveLetter = (index) => {
+    // split the existing string to an array and remove the element at @index.
+    // Join the resulting array to a new text value.
+    // replace the existing state text value with the new value.
+    const textValues = this.state.textValue.split('');
+    textValues.splice(index, 1);
+    this.setState({
+      textValue: textValues.join('')
+    })
+  }
+
   render() {
+    // :hover made available through Radium
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8x',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'black'
+      }
     };
 
     let persons = null;
-    if (this.state.showPersons) persons = (
+    if (this.state.showPersons) {
+      persons = (
+        <div>
+          {
+            this.state.persons.map((p) => {
+              return <Person
+                key={p.id}
+                name={p.name}
+                age={p.age}
+                click={() => this.deletePersonHandler(p.id)}
+                changed={(event) => this.nameChangedHandler(event, p.id)}
+              />
+            })
+          }
+        </div>
+      );
+
+      style.backgroundColor = 'darkred'; // when persons lists is open, button is red
+      style[':hover'] = {
+        backgroundColor: 'pink',
+        color: 'black'
+      };
+    }
+
+    let charComponents = (
       <div>
         {
-          this.state.persons.map((p) => {
-            return <Person
-              key={p.id}
-              name={p.name}
-              age={p.age}
-              click={() => this.deletePersonHandler(p.id)}
-              changed={(event) => this.nameChangedHandler(event, p.id)}
-            />
+          this.state.textValue.split('').map((letter, index) => {
+            return <CharComponent key={index} index={index} click={this.onRemoveLetter} value={letter} />
           })
         }
       </div>
     );
 
+    const classes = [];
+    if(this.state.persons.length <= 2) {
+      classes.push('red');
+    }
+    if(this.state.persons.length <= 1) {
+      classes.push('bold');
+    }
+    
+
+
     return (
       <div className="App">
         <h1>Hi there</h1>
+        <p className={classes.join(' ')}>Someone set us up the bomb</p>
         <button
           style={style}
           onClick={this.togglePersonsHandler}>Toggle Persons</button>
         {persons}
+        <hr />
+        <input type="text" onChange={(event) => this.onTextChange(event)} value={this.state.textValue} />
+        <p>{this.state.textValue}</p>
+        <Validation textLength={this.state.textValue.length} />
+        {charComponents}
       </div>
     );
   }
 
 }
 
-export default App;
+export default Radium(App);
