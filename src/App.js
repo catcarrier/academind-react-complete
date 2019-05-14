@@ -3,7 +3,7 @@ import './App.css';
 import Person from './Person/Person';
 import Validation from './Validation/Validation';
 import CharComponent from './Char/Char';
-import Radium from 'radium';
+import Radium, { StyleRoot } from 'radium';
 
 class App extends Component {
   state = {
@@ -63,9 +63,6 @@ class App extends Component {
   }
 
   onRemoveLetter = (index) => {
-    // split the existing string to an array and remove the element at @index.
-    // Join the resulting array to a new text value.
-    // replace the existing state text value with the new value.
     const textValues = this.state.textValue.split('');
     textValues.splice(index, 1);
     this.setState({
@@ -124,29 +121,33 @@ class App extends Component {
     );
 
     const classes = [];
-    if(this.state.persons.length <= 2) {
+    if (this.state.persons.length <= 2) {
       classes.push('red');
     }
-    if(this.state.persons.length <= 1) {
+    if (this.state.persons.length <= 1) {
       classes.push('bold');
     }
-    
 
 
+
+    // StyleRoot wrapper allows Radium to employ @media queries
     return (
-      <div className="App">
-        <h1>Hi there</h1>
-        <p className={classes.join(' ')}>Someone set us up the bomb</p>
-        <button
-          style={style}
-          onClick={this.togglePersonsHandler}>Toggle Persons</button>
-        {persons}
-        <hr />
-        <input type="text" onChange={(event) => this.onTextChange(event)} value={this.state.textValue} />
-        <p>{this.state.textValue}</p>
-        <Validation textLength={this.state.textValue.length} />
-        {charComponents}
-      </div>
+      <StyleRoot>
+        <div className="App">
+          <h1>Hi there</h1>
+          <p className={classes.join(' ')}>Someone set us up the bomb</p>
+          <button
+            style={style}
+            onClick={this.togglePersonsHandler}>Toggle Persons</button>
+          {persons}
+          <hr />
+          <input type="text" onChange={(event) => this.onTextChange(event)} value={this.state.textValue} />
+          <p>{this.state.textValue}</p>
+          <Validation textLength={this.state.textValue.length} />
+          {charComponents}
+        </div>
+      </StyleRoot>
+
     );
   }
 
