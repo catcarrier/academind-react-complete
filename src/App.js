@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import styles from './App.module.css';
 import Person from './Person/Person';
 import Validation from './Validation/Validation';
 import CharComponent from './Char/Char';
@@ -70,7 +70,6 @@ class App extends Component {
   }
 
   render() {
-    // :hover made available through Radium
     const style = {
       backgroundColor: 'green',
       color: 'white',
@@ -114,14 +113,14 @@ class App extends Component {
 
     const classes = [];
     if (this.state.persons.length <= 2) {
-      classes.push('red');
+      classes.push(styles.red);
     }
     if (this.state.persons.length <= 1) {
-      classes.push('bold');
+      classes.push(styles.bold);
     }
 
     return (
-        <div className="App">
+        <div className={styles.App}>
           <h1>Hi there</h1>
           <p className={classes.join(' ')}>Someone set us up the bomb</p>
           <button
@@ -139,4 +138,4 @@ class App extends Component {
 
 }
 
-export default Radium(App);
+export default App;

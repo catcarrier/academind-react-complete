@@ -11,7 +11,7 @@ const charcomponent = (props) => {
     };
 
     return (
-        <input type="text" style={style} onClick={() => props.click(props.index)} value={props.value}/>
+        <input type="text" style={style} onClick={() => props.click(props.index)} value={props.value} readOnly/>
     );
 
 }
