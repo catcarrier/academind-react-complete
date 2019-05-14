@@ -3,7 +3,6 @@ import './App.css';
 import Person from './Person/Person';
 import Validation from './Validation/Validation';
 import CharComponent from './Char/Char';
-import Radium, { StyleRoot } from 'radium';
 
 class App extends Component {
   state = {
@@ -78,11 +77,7 @@ class App extends Component {
       font: 'inherit',
       border: '1px solid blue',
       padding: '8x',
-      cursor: 'pointer',
-      ':hover': {
-        backgroundColor: 'lightgreen',
-        color: 'black'
-      }
+      cursor: 'pointer'
     };
 
     let persons = null;
@@ -104,10 +99,7 @@ class App extends Component {
       );
 
       style.backgroundColor = 'darkred'; // when persons lists is open, button is red
-      style[':hover'] = {
-        backgroundColor: 'pink',
-        color: 'black'
-      };
+      
     }
 
     let charComponents = (
@@ -128,11 +120,7 @@ class App extends Component {
       classes.push('bold');
     }
 
-
-
-    // StyleRoot wrapper allows Radium to employ @media queries
     return (
-      <StyleRoot>
         <div className="App">
           <h1>Hi there</h1>
           <p className={classes.join(' ')}>Someone set us up the bomb</p>
@@ -146,8 +134,6 @@ class App extends Component {
           <Validation textLength={this.state.textValue.length} />
           {charComponents}
         </div>
-      </StyleRoot>
-
     );
   }
 
