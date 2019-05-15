@@ -83,12 +83,12 @@ class App extends Component {
               // move the key to the errorboundary, becuase it is now the outer
               // layer. We are returning a list of errorboundaries, not a list of persons
               return <ErrorBoundary key={p.id}>
-                        <Person
-                          name={p.name}
-                          age={p.age}
-                          click={() => this.deletePersonHandler(p.id)}
-                          changed={(event) => this.nameChangedHandler(event, p.id)}/>
-                      </ErrorBoundary>
+                <Person
+                  name={p.name}
+                  age={p.age}
+                  click={() => this.deletePersonHandler(p.id)}
+                  changed={(event) => this.nameChangedHandler(event, p.id)} />
+              </ErrorBoundary>
             })
           }
         </div>
