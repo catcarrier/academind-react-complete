@@ -3,6 +3,7 @@ import styles from './App.module.css';
 import Person from './Person/Person';
 import Validation from './Validation/Validation';
 import CharComponent from './Char/Char';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
   state = {
@@ -26,7 +27,7 @@ class App extends Component {
 
   nameChangedHandler = (event, id) => {
     const updatedPersons = this.state.persons.map(person => {
-      if (person.id === id) {
+      if (person.userId === id) {
         return {
           ...person,
           name: event.target.value
@@ -78,19 +79,22 @@ class App extends Component {
         <div>
           {
             this.state.persons.map((p) => {
-              return <Person
-                key={p.id}
-                name={p.name}
-                age={p.age}
-                click={() => this.deletePersonHandler(p.id)}
-                changed={(event) => this.nameChangedHandler(event, p.id)}
-              />
+
+              // move the key to the errorboundary, becuase it is now the outer
+              // layer. We are returning a list of errorboundaries, not a list of persons
+              return <ErrorBoundary key={p.id}>
+                        <Person
+                          name={p.name}
+                          age={p.age}
+                          click={() => this.deletePersonHandler(p.id)}
+                          changed={(event) => this.nameChangedHandler(event, p.id)}/>
+                      </ErrorBoundary>
             })
           }
         </div>
       );
 
-      
+
       btnClass = styles.Red
     }
 
@@ -113,19 +117,19 @@ class App extends Component {
     }
 
     return (
-        <div className={styles.App}>
-          <h1>Hi there</h1>
-          <p className={classes.join(' ')}>Someone set us up the bomb</p>
-          <button
-            className={btnClass}
-            onClick={this.togglePersonsHandler}>Toggle Persons</button>
-          {persons}
-          <hr />
-          <input type="text" onChange={(event) => this.onTextChange(event)} value={this.state.textValue} />
-          <p>{this.state.textValue}</p>
-          <Validation textLength={this.state.textValue.length} />
-          {charComponents}
-        </div>
+      <div className={styles.App}>
+        <h1>Hi there</h1>
+        <p className={classes.join(' ')}>Someone set us up the bomb</p>
+        <button
+          className={btnClass}
+          onClick={this.togglePersonsHandler}>Toggle Persons</button>
+        {persons}
+        <hr />
+        <input type="text" onChange={(event) => this.onTextChange(event)} value={this.state.textValue} />
+        <p>{this.state.textValue}</p>
+        <Validation textLength={this.state.textValue.length} />
+        {charComponents}
+      </div>
     );
   }
 
