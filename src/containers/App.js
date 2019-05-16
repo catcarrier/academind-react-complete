@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import Cockpit from '../components/Cockpit/Cockpit';
 import Persons from '../components/Persons/Persons';
+import { default as uuid } from 'uuid';
 
 class App extends Component {
   state = {
     persons: [
-      { id: '001', name: "Xerxes", age: 32 },
-      { id: '002', name: "Cyrus", age: 200 },
-      { id: '003', name: "Ozymandias", age: 52 },
+      { id: uuid.v1(), name: "Xerxes", age: 32 },
+      { id: uuid.v1(), name: "Cyrus", age: 200 },
+      { id: uuid.v1(), name: "Ozymandias", age: 52 },
     ],
     showPersons: false
   }
