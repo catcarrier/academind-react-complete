@@ -3,7 +3,6 @@ import styles from './App.module.css';
 import Person from './Person/Person';
 import Validation from './Validation/Validation';
 import CharComponent from './Char/Char';
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
   state = {
@@ -83,13 +82,13 @@ class App extends Component {
 
               // move the key to the errorboundary, becuase it is now the outer
               // layer. We are returning a list of errorboundaries, not a list of persons
-              return <ErrorBoundary key={p.id}>
-                <Person
+              return <Person
+                key={p.id}
                   name={p.name}
                   age={p.age}
                   click={() => this.deletePersonHandler(p.id)}
                   changed={(event) => this.nameChangedHandler(event, p.id)} />
-              </ErrorBoundary>
+
             })
           }
         </div>
