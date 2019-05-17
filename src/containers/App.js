@@ -4,6 +4,21 @@ import Persons from '../components/Persons/Persons';
 import { default as uuid } from 'uuid';
 
 class App extends Component {
+
+  constructor(props) {
+    console.log('[App.js constructor]');
+    super(props);
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    console.log('[App.js getDerivedStateFromProps]', props);
+    return state;
+  }
+
+  componentDidMount() {
+    console.log('[App.js componentDidMount]');
+  }
+
   state = {
     persons: [
       { id: uuid.v1(), name: "Xerxes", age: 32 },
@@ -46,6 +61,8 @@ class App extends Component {
   }
 
   render() {
+    console.log('[App.js render]');
+
     let persons = null;
 
     if (this.state.showPersons) {
