@@ -38,7 +38,8 @@ class App extends Component {
     ],
     showPersons: false,
     showCockpit: true,
-    changeCounter: 0
+    changeCounter: 0,
+    isAuthenticated: false
   }
 
   deletePersonHandler = (id) => {
@@ -50,6 +51,11 @@ class App extends Component {
     });
   }
 
+  loginHandler = () => {
+    this.setState({
+      isAuthenticated: true
+    })
+  }
 
   nameChangedHandler = (event, id) => {
     const updatedPersons = this.state.persons.map(person => {
@@ -62,6 +68,8 @@ class App extends Component {
         return person
       }
     })
+
+
 
     // Here the new state depends on a value (changeCounter) from 
     // the prev state. For this to work consistently we use the 
@@ -96,6 +104,7 @@ class App extends Component {
         persons={this.state.persons}
         clicked={this.deletePersonHandler}
         changed={this.nameChangedHandler}
+        isAuthenticated={this.state.isAuthenticated}
       />
     }
 
@@ -107,22 +116,13 @@ class App extends Component {
             title={this.props.title}
             personsLength={this.state.persons.Length}
             showPersons={this.state.showPersons}
-            clicked={this.togglePersonsHandler} />
+            clicked={this.togglePersonsHandler}
+            login={this.loginHandler}
+          />
           : null}
         {persons}
       </React.Fragment>
 
-      // <div className={classes.App}>
-      //   <button onClick={() => { this.setState({ showCockpit: false }) }}>Remove Cockpit</button>
-      //   {this.state.showCockpit ?
-      //     <Cockpit
-      //       title={this.props.title}
-      //       personsLength={this.state.persons.Length}
-      //       showPersons={this.state.showPersons}
-      //       clicked={this.togglePersonsHandler} />
-      //     : null}
-      //   {persons}
-      // </div>
     );
   }
 

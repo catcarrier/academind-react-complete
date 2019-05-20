@@ -1,15 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styles from './Cockpit.module.css';
 
 const cockpit = (props) => {
+    
+    const toggleButtonRef = useRef(null);
+
     
 
     useEffect(() => {
         console.log('[Cockpit.js] useEffect');
         // mimic an async request
-        const timer = setTimeout(() => {
-            alert('saved the result');
-        }, 1000)
+        // const timer = setTimeout(() => {
+        //     alert('saved the result');
+        // }, 1000)
+
+        toggleButtonRef.current.click();
 
         return () => { 
             //clearTimeout(timer);
@@ -35,8 +40,10 @@ const cockpit = (props) => {
             <h1>{props.title}</h1>
             <p className={classes.join(' ')}>Someone set us up the bomb</p>
             <button
+                ref={toggleButtonRef}
                 className={btnClass}
                 onClick={props.clicked}>Toggle Persons</button>
+            <button onClick={props.login}>Log in</button>
         </div>
 
     );

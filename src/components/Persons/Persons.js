@@ -15,10 +15,10 @@ class Persons extends Component {
     // }
 
 
-    shouldComponentUpdate(nextProps, nextState) {
-        console.log('[Persons] shouldComponentUpdate');
-        return nextProps.persons !== this.props.persons;
-    }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     console.log('[Persons] shouldComponentUpdate');
+    //     return nextProps.persons !== this.props.persons;
+    // }
 
     getSnapshotBeforeUpdate(prevProps, prevState) {
         console.log('[Persons] getSnapshotBeforeUpdate');
@@ -37,7 +37,9 @@ class Persons extends Component {
                 name={p.name}
                 age={p.age}
                 click={() => this.props.clicked(p.id)}
-                changed={(event) => this.props.changed(event, p.id)} />
+                changed={(event) => this.props.changed(event, p.id)} 
+                isAuthenticated={this.props.isAuthenticated}
+                />
             );
         });
     }

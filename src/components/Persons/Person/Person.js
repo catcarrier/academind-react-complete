@@ -3,21 +3,35 @@ import styles from './Person.module.css';
 //import { default as uuid } from 'uuid';
 //import Aux from '../../hoc/Aux';
 import withClass from '../../hoc/withClass';
+import PropTypes from 'prop-types';
 
 class Person extends Component {
+
+    constructor(props) {
+        super(props);
+        this.inputElementRef = React.createRef(); // 1. create a ref...
+    }
+
+    componentDidMount() {
+        this.inputElementRef.current.focus(); // 3. focus on the input
+    }
 
     render() {
         console.log('[Person.js rendering]');
         return (
-            // <div className={styles.Person}>
-            //     <p onClick={this.props.click}>{this.props.name} is {this.props.age} years old.</p>
-            //     <input type="text" onChange={this.props.changed} value={this.props.name} />
-            // </div>
-
             <React.Fragment>
+                {this.props.isAuthenticated ? <p>Authenticated</p> : <p>Please log in</p>}
                 <p onClick={this.props.click}>{this.props.name} is {this.props.age} years old.</p>
                 <p>{this.props.children}</p>
-                <input type="text" onChange={this.props.changed} value={this.props.name} />
+                <input
+                    type="text"
+                    ref = {this.inputElementRef} // 2. assign the ref to this input
+
+                    // An older, functional way of assigning focus. Follow this
+                    // up by calling this.inputElement.focus() in DidMount
+                    // ref={(elem) => {this.inputElement = elem}} 
+                    onChange={this.props.changed}
+                    value={this.props.name} />
             </React.Fragment>
         )
 
@@ -51,5 +65,12 @@ class Person extends Component {
     }
 
 }
+
+Person.propTypes = {
+    click: PropTypes.func,
+    changed: PropTypes.func,
+    name: PropTypes.string,
+    age: PropTypes.number
+};
 
 export default withClass(Person, styles.Person);
