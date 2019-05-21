@@ -1,11 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
+import AuthContext from '../context/auth-context';
 import styles from './Cockpit.module.css';
 
 const cockpit = (props) => {
     
     const toggleButtonRef = useRef(null);
 
-    
+    // useConctext hook provides access to the context
+    // provided by the upstream AuthContext.Provider
+    const authContext = useContext(AuthContext);
+
+    console.log("Cockpit context.authenticated", authContext.authenticated);
 
     useEffect(() => {
         console.log('[Cockpit.js] useEffect');
@@ -43,7 +48,17 @@ const cockpit = (props) => {
                 ref={toggleButtonRef}
                 className={btnClass}
                 onClick={props.clicked}>Toggle Persons</button>
-            <button onClick={props.login}>Log in</button>
+
+            { /* Login handler as exposed by context, using <AuthContext> */ }
+            {/* <AuthContext.Consumer>
+                {context => 
+                    context.authenticated ? null :<button onClick={context.login}>Log in</button>
+                }
+            </AuthContext.Consumer> */}
+
+            { /* Using useContext hook */ }
+            { authContext.authenticated ? null :<button onClick={authContext.login}>Log in already!</button> }
+
         </div>
 
     );

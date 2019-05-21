@@ -4,6 +4,7 @@ import Persons from '../components/Persons/Persons';
 import { default as uuid } from 'uuid';
 import classes from './App.module.css';
 import withClass from '../components/hoc/withClass';
+import AuthContext from '../components/context/auth-context';
 
 class App extends Component {
 
@@ -111,16 +112,21 @@ class App extends Component {
     return (
       <React.Fragment>
         <button onClick={() => { this.setState({ showCockpit: false }) }}>Remove Cockpit</button>
-        {this.state.showCockpit ?
-          <Cockpit
-            title={this.props.title}
-            personsLength={this.state.persons.Length}
-            showPersons={this.state.showPersons}
-            clicked={this.togglePersonsHandler}
-            login={this.loginHandler}
-          />
-          : null}
-        {persons}
+        <AuthContext.Provider value={{
+          authenticated: this.state.isAuthenticated,
+          login: this.loginHandler
+        }}>
+          {this.state.showCockpit ?
+            <Cockpit
+              title={this.props.title}
+              personsLength={this.state.persons.Length}
+              showPersons={this.state.showPersons}
+              clicked={this.togglePersonsHandler}
+              login={this.loginHandler}
+            />
+            : null}
+          {persons}
+        </AuthContext.Provider>
       </React.Fragment>
 
     );

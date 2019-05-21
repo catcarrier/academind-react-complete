@@ -4,6 +4,7 @@ import styles from './Person.module.css';
 //import Aux from '../../hoc/Aux';
 import withClass from '../../hoc/withClass';
 import PropTypes from 'prop-types';
+import AuthContext from '../../context/auth-context';
 
 class Person extends Component {
 
@@ -12,15 +13,42 @@ class Person extends Component {
         this.inputElementRef = React.createRef(); // 1. create a ref...
     }
 
+    // static contextType is available in class-based components.
+    // -- allows access to the context outside an <AuthContext> component,
+    //    such as in lifecycle functions.
+    // -- must be named contextType
+    // -- must be static
+    // -- adds a property named context to the component
+    //
+    // see componentDidMount for example.
+    //
+    // For functional components, options are: 
+    // -- <AuthContext>
+    // -- useContext hook
+    static contextType = AuthContext;
+
     componentDidMount() {
         this.inputElementRef.current.focus(); // 3. focus on the input
+
+        // context is made available through static contextType, above
+        console.log(this.context);
     }
 
     render() {
         console.log('[Person.js rendering]');
         return (
             <React.Fragment>
-                {this.props.isAuthenticated ? <p>Authenticated</p> : <p>Please log in</p>}
+
+                { /* using AuthContext.Consumer */ }
+                {/* <AuthContext.Consumer>
+                    {context => 
+                        context.authenticated ? <p>Authenticated</p> : <p>Please log in</p>
+                    }
+                </AuthContext.Consumer> */}
+
+                {/* Another way, this time using context exposed by static contextType */}
+                { this.context.authenticated ? <p>Authenticated</p> : <p>Please log in</p> }
+
                 <p onClick={this.props.click}>{this.props.name} is {this.props.age} years old.</p>
                 <p>{this.props.children}</p>
                 <input
