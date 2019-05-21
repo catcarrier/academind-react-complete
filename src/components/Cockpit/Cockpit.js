@@ -6,8 +6,15 @@ const cockpit = (props) => {
     
     const toggleButtonRef = useRef(null);
 
-    // useConctext hook provides access to the context
-    // provided by the upstream AuthContext.Provider
+    // Class-based components get access to context through:
+    //  -- React.createContext, as exposed by our <AuthContext>
+    //  -- static contextType
+    //
+    // Functional components get access to context through:
+    //  -- useContext hook
+    //
+    // The hook provides access to the context set up by the nearest
+    // upstream AuthContext.Provider (see App.js)
     const authContext = useContext(AuthContext);
 
     console.log("Cockpit context.authenticated", authContext.authenticated);
