@@ -131,7 +131,6 @@ class App extends Component {
 
     );
   }
-
 }
 
 export default withClass(App, classes.App);
